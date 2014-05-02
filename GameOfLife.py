@@ -14,7 +14,7 @@ SCREENX = 1280
 SCREENY = 720
 CELLSIZE = 10
 NUMOFCELLS = (SCREENX/CELLSIZE) * (SCREENY/CELLSIZE)
-CELLS = []
+
 
 #set up window
 window = pygame.display.set_mode((SCREENX, SCREENY))
@@ -22,19 +22,20 @@ pygame.display.set_caption('Game of Life')
 window.fill(BLACK)
 
 #generate random seed
+cells=[]
 for i in range(NUMOFCELLS):
     r = randint(0,6)
     if r == 0:
-        CELLS.append(1)
+        cells.append(1)
     else:
-        CELLS.append(0)
+        cells.append(0)
 
 #draw grid to screen
-def drawGrid(SCREENX, SCREENY, CELLSIZE, CELLS):
+def drawGrid(SCREENX, SCREENY, CELLSIZE, cells):
 	currentCell=0
 	for x in range(0,SCREENX,CELLSIZE):
 		for y in range(0,SCREENY,CELLSIZE):
-			if CELLS[currentCell] == 1:
+			if cells[currentCell] == 1:
 				#alive cell
 				pygame.draw.rect(window, RED, [x, y, CELLSIZE, CELLSIZE])
 			else:
@@ -53,7 +54,7 @@ while not done:
 	    if event.type == pygame.QUIT:
 	        done=True
 
-	drawGrid(SCREENX, SCREENY, CELLSIZE, CELLS)
+	drawGrid(SCREENX, SCREENY, CELLSIZE, cells)
 
 	#draw updates
 	pygame.display.flip()

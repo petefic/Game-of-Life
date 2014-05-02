@@ -1,7 +1,8 @@
 import pygame, sys
 from pygame.locals import *
+from random import randint
 
-#inititalize everything
+#inititalize
 pygame.init()
 clock = pygame.time.Clock()
 
@@ -15,11 +16,16 @@ window = pygame.display.set_mode((1280, 720))
 pygame.display.set_caption('Game of Life')
 window.fill(blk)
 
-gridsize=10
 #draw grid
+gridsize=10
 for x in range(0,1280,gridsize):
 	for y in range(0,720,gridsize):
-		pygame.draw.rect(window, grey, [x, y, gridsize, gridsize], 1)
+		if randint(0,5) == 0:
+			pygame.draw.rect(window, red, [x, y, gridsize, gridsize])
+		else:
+			pygame.draw.rect(window, grey, [x, y, gridsize, gridsize], 1)
+
+
 
 #main loop
 done = False

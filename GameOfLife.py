@@ -6,42 +6,58 @@ from random import randint
 pygame.init()
 clock = pygame.time.Clock()
 
-#define colors
-blk = (0,0,0)
-red = (255,0,0)
-grey = (30,30,30)
+#define constants
+BLACK = (0,0,0)
+RED = (255,0,0)
+GREY = (30,30,30)
+SCREENX = 1280
+SCREENY = 720
+CELLSIZE = 10
+NUMOFCELLS = (SCREENX/CELLSIZE) * (SCREENY/CELLSIZE)
+CELLS = []
 
 #set up window
-window = pygame.display.set_mode((1280, 720))
+window = pygame.display.set_mode((SCREENX, SCREENY))
 pygame.display.set_caption('Game of Life')
-window.fill(blk)
+window.fill(BLACK)
 
-#draw grid with random start seed
-gridsize=10
-for x in range(0,1280,gridsize):
-	for y in range(0,720,gridsize):
-		if randint(0,5) == 0: #20% chance
-			#alive cell
-			pygame.draw.rect(window, red, [x, y, gridsize, gridsize])
-		else:
-			#dead cell, just draw grid border
-			pygame.draw.rect(window, grey, [x, y, gridsize, gridsize], 1)
+#generate random seed
+for i in range(NUMOFCELLS):
+    r = randint(0,6)
+    if r == 0:
+        CELLS.append(1)
+    else:
+        CELLS.append(0)
+
+#draw grid to screen
+def drawGrid(SCREENX, SCREENY, CELLSIZE, CELLS):
+	currentCell=0
+	for x in range(0,SCREENX,CELLSIZE):
+		for y in range(0,SCREENY,CELLSIZE):
+			if CELLS[currentCell] == 1:
+				#alive cell
+				pygame.draw.rect(window, RED, [x, y, CELLSIZE, CELLSIZE])
+			else:
+				#dead cell, just draw grid border
+				pygame.draw.rect(window, GREY, [x, y, CELLSIZE, CELLSIZE], 1)
+			currentCell+=1
 
 #main loop
 done = False
 while not done:
-	#30 fps
-	clock.tick(30)
+	#generations per second
+	clock.tick(10)
 
 	for event in pygame.event.get():
 		#check if user wants to exit
 	    if event.type == pygame.QUIT:
 	        done=True
 
-	
-	
+	drawGrid(SCREENX, SCREENY, CELLSIZE, CELLS)
 
 	#draw updates
 	pygame.display.flip()
 
 pygame.quit()
+
+

@@ -8,11 +8,18 @@ clock = pygame.time.Clock()
 #define colors
 blk = (0,0,0)
 red = (255,0,0)
-white = (255,255,255)
+grey = (30,30,30)
 
 #set up window
-window = pygame.display.set_mode((800, 600))
+window = pygame.display.set_mode((1280, 720))
 pygame.display.set_caption('Game of Life')
+window.fill(blk)
+
+gridsize=10
+#draw grid
+for x in range(0,1280,gridsize):
+	for y in range(0,720,gridsize):
+		pygame.draw.rect(window, grey, [x, y, gridsize, gridsize], 1)
 
 #main loop
 done = False
@@ -25,7 +32,7 @@ while not done:
 	    if event.type == pygame.QUIT:
 	        done=True
 
-	window.fill(white)
+	
 
 	#draw updates
 	pygame.display.flip()

@@ -16,16 +16,16 @@ window = pygame.display.set_mode((1280, 720))
 pygame.display.set_caption('Game of Life')
 window.fill(blk)
 
-#draw grid
+#draw grid with random start seed
 gridsize=10
 for x in range(0,1280,gridsize):
 	for y in range(0,720,gridsize):
-		if randint(0,5) == 0:
+		if randint(0,5) == 0: #20% chance
+			#alive cell
 			pygame.draw.rect(window, red, [x, y, gridsize, gridsize])
 		else:
+			#dead cell, just draw grid border
 			pygame.draw.rect(window, grey, [x, y, gridsize, gridsize], 1)
-
-
 
 #main loop
 done = False
@@ -39,9 +39,9 @@ while not done:
 	        done=True
 
 	
+	
 
 	#draw updates
 	pygame.display.flip()
 
 pygame.quit()
-

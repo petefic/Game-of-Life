@@ -10,9 +10,9 @@ clock = pygame.time.Clock()
 BLACK = (0,0,0)
 RED = (255,0,0)
 GREY = (30,30,30)
-SCREENX = 1280
-SCREENY = 720
-CELLSIZE = 10
+SCREENX = 800
+SCREENY = 600
+CELLSIZE = 5
 ROWS = SCREENX/CELLSIZE
 COLS = SCREENY/CELLSIZE
 
@@ -26,7 +26,7 @@ window.fill(BLACK)
 cells = [[None for i in range(COLS)] for i in range(ROWS)]
 for x in range(0,ROWS):
 	for y in range(0,COLS):
-	    r = randint(0,6)
+	    r = randint(0,15)
 	    if r == 0:
 	        cells[x][y] = 1
 	    else:
@@ -37,7 +37,7 @@ done = False
 while not done:
 	
 	#generations per second
-	clock.tick(10)
+	clock.tick(7)
 
 	#check if user wants to exit
 	for event in pygame.event.get():
@@ -93,7 +93,7 @@ while not done:
 				#alive cell
 				pygame.draw.rect(window, RED, [x, y, CELLSIZE, CELLSIZE])
 			else:
-				#dead cell, just draw grid border
+				#dead cell, black square with grey border
 				pygame.draw.rect(window, BLACK, [x, y, CELLSIZE, CELLSIZE])
 				pygame.draw.rect(window, GREY, [x, y, CELLSIZE, CELLSIZE], 1)
 			currentY+=1

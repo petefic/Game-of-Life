@@ -18,7 +18,6 @@ CELLSIZE = 10
 HEIGHT = SCREENY/CELLSIZE
 WIDTH = SCREENX/CELLSIZE
 
-
 #set up window
 window = pygame.display.set_mode((SCREENX, SCREENY))
 pygame.display.set_caption('Game of Life')
@@ -38,13 +37,41 @@ def findNeighbors(grid, x, y):
     else:
         xi = (0, 1)
 
-    yi = (0, -1, 1) if 0 < y < len(grid[0]) - 1 else ((0, -1) if y > 0 else (0, 1))
+    if 0 < y < len(grid[0]) - 1:
+        yi = (0, -1, 1)
+    elif y > 0:
+        yi = (0, -1)
+    else:
+        yi = (0, 1)
+
     for a in xi:
         for b in yi:
             if a == b == 0:
                 continue
             yield grid[x + a][y + b]
 
+def update(grid, x, y):
+	#determine num of living neighbors
+	neighbors = findNeighbors(cells,x,y)
+	alive = 0
+	for i in neighbors:
+		if i == 1:
+			alive+=1
+	
+	#if current cell is alive
+	if grid[x][y] == 1:
+		#kill if less than 2 or more than 3 alive neighbors
+		if (alive < 2) or (alive > 3):
+			return 0
+		else:
+			return 1
+	#if current cell is dead
+	elif grid[x][y] == 0:
+		#make alive if 3 alive neighbors
+		if alive == 3:
+			return 1
+		else:
+			return 0
 
 #main loop
 while True:
@@ -58,33 +85,7 @@ while True:
 	#update cells
 	for x in range(0,WIDTH):
 		for y in range(0,HEIGHT):
-			
-			#get neighbors
-			neighbors = findNeighbors(cells,x,y)
-
-			#determine num of living neighbors
-			alive = 0
-			for i in neighbors:
-				if i == 1:
-					alive+=1
-
-			
-			#if current cell is alive
-			if cells[x][y] == 1:
-				#kill if less than 2 or more than 3 alive neighbors
-				if alive < 2:
-					cells[x][y] = 0
-				elif alive > 3:
-					cells[x][y] = 0
-				else:
-					cells[x][y] = 1
-			#if current cell is dead
-			elif cells[x][y] == 0:
-				#make alive if 3 alive neighbors
-				if alive == 3:
-					cells[x][y] = 1
-				else:
-					cells[x][y] = 0
+			cells[x][y] = update(cells,x,y)
 			
 	#draw grid
 	for x in range(0,SCREENX,CELLSIZE):

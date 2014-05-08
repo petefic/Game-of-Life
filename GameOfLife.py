@@ -2,6 +2,7 @@ import pygame, sys
 from pygame.locals import *
 from random import randint
 import numpy
+from copy import copy, deepcopy
 
 #inititalize
 pygame.init()
@@ -83,9 +84,11 @@ while True:
 	        sys.exit()
 
 	#update cells
+	new = numpy.zeros((WIDTH,HEIGHT), dtype=numpy.int)
 	for x in range(0,WIDTH):
 		for y in range(0,HEIGHT):
-			cells[x][y] = update(cells,x,y)
+			new[x][y] = update(cells,x,y)
+	cells = deepcopy(new)
 			
 	#draw grid
 	for x in range(0,SCREENX,CELLSIZE):
